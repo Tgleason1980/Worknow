@@ -2,12 +2,12 @@ const router = require('express').Router()
 const db = require('../../data/dbConfig')
 const restricted = require('../auth/restricted-middleware')
 
-router.get('/users', restricted, async (req, res) => {
+router.get('/users', async (req, res) => {
     const users = await db('users')
     res.status(200).json(users)
 })
 
-router.post('/users', restricted, async (req, res) => {
+router.post('/users', async (req, res) => {
     const { email, password } = req.body
 
     if (email && password) {
@@ -18,7 +18,7 @@ router.post('/users', restricted, async (req, res) => {
     }
 })
 
-router.get('/users/:id', restricted, async (req, res) => {
+router.get('/users/:id', async (req, res) => {
     const id = req.params.id
 
     try {
@@ -33,14 +33,14 @@ router.get('/users/:id', restricted, async (req, res) => {
     }
 })
 
-router.delete('/users/:id', restricted, async (req, res) => {
+router.delete('/users/:id', async (req, res) => {
     const id = req.params.id
     const result = await db('users').where({id}).delete()
 
     res.status(200).json(result)
 })
 
-router.put('/users/:id', restricted, async (req, res) => {
+router.put('/users/:id', async (req, res) => {
     const id = req.params.id  
     try {
         const { email, password } = req.body
